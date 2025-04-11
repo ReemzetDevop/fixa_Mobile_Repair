@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "844098821894",
+    "firebase_url": "https://fixa-repair-default-rtdb.firebaseio.com",
+    "project_id": "fixa-repair",
+    "storage_bucket": "fixa-repair.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:844098821894:android:a544f1346ac71658f6c887",
+        "android_client_info": {
+          "package_name": "com.repair.fixa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuHt-HxCrdDxlYLJv1RR94rOj1tx4dcqE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

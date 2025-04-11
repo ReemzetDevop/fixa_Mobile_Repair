@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Fixa is your go-to platform for seamless home services booking. Get professional help for cleaning, repairs, and more with just a few taps.">
+
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#1c7bbc ">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="fixa">
+  <meta name="application-name" content="fixa">
+
+  <!-- Social Sharing Metadata -->
+  <meta property="og:title" content="Fixa - Easy Home Services Booking">
+  <meta property="og:description" content="Book trusted professionals for home services effortlessly with Fixa.">
+  <meta property="og:image" content="icons/fixalogo.png">
+  <meta property="og:url" content="https://fixa.com/">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fixa - Easy Home Services Booking">
+  <meta name="twitter:description" content="Get expert help for home services with just a few taps on Fixa.">
+  <meta name="twitter:image" content="icons/fixalogo.png">
+
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/fixalogo.png">
+  <link rel="apple-touch-icon" href="icons/fixalogo.png">
+  <link rel="manifest" href="manifest.json">
+
+  <title>Fixa</title>
+
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #FFFFFF;
+    }
+
+    #loading {
+      text-align: center;
+      color: black;
+    }
+
+    img {
+      width: 150px;
+      animation: bounce 1.5s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-20px);
+      }
+      60% {
+        transform: translateY(-10px);
+      }
+    }
+
+    p {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    #install-btn {
+      display: none;
+      margin-top: 20px;
+      background-color: #2e118c;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #install-btn:hover {
+      background-color: #3a1aa6;
+    }
+  </style>
+</head>
+<body>
+<div id="loading" role="status" aria-live="polite">
+  <img src="icons/fixalogo.png" alt="Fixa Logo">
+  <p>Loading Fixa, please wait...</p>
+  <button id="install-btn">Install Fixa</button>
+</div>
+
+<!-- Main Flutter App -->
+<script src="flutter_service_worker.js" defer></script>
+<script src="flutter_bootstrap.js" async></script>
+
+<!-- Enable Service Worker and Handle PWA Install Prompt -->
+<script>
+  let deferredPrompt;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    deferredPrompt = e;
+  });
+
+  function promptInstall(){
+    deferredPrompt.prompt();
+  }
+
+  window.addEventListener('appinstalled', () => {
+    deferredPrompt = null;
+    appInstalled();
+  });
+
+  function getLaunchMode() {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    if(deferredPrompt) hasPrompt();
+    if (document.referrer.startsWith('android-app://')) {
+      appLaunchedAsTWA();
+    } else if (navigator.standalone || isStandalone) {
+      appLaunchedAsPWA();
+    } else {
+      window.appLaunchedInBrowser();
+    }
+  }
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('flutter_service_worker.js').then((registration) => {
+      console.log('Service Worker registered with scope:', registration.scope);
+    }).catch((error) => {
+      console.error('Service Worker registration failed:', error);
+    });
+  }
+
+  window.addEventListener('flutter-first-frame', () => {
+    const loadingDiv = document.getElementById('loading');
+    if (loadingDiv) {
+      loadingDiv.style.display = 'none';
+    }
+  });
+</script>
+</body>
+</html>
